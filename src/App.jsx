@@ -4,6 +4,7 @@ import { BrowserRouter, Route, Routes } from 'react-router-dom'
 import Layout from './components/layout/Layout'
 import Home from './pages/Home'
 import ThemeContextProvider from './context/ThemeContextProvider'
+import DetailPage from './pages/DetailPage'
 
 function App() {
 
@@ -14,6 +15,7 @@ function App() {
       <Routes>
         <Route to='/' element={<Layout/>}>
           <Route index element={<Home/>}/>
+          <Route path="/detail" element={<DetailPage/>}/>
         </Route>
       </Routes>
      </BrowserRouter>
