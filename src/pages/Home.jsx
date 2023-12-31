@@ -7,7 +7,7 @@ const Home = () => {
 
     const Data = useSelector(state=>state.invoice.invoiceData)
   return (
-    <div className='max-w-6xl mx-auto'>
+    <div className='max-w-4xl mx-auto'>
         <AddInvoice invoiceCount = {Data.length}/>
         {Data.length>0?<div className=''>
         {Data.map((item)=>{
