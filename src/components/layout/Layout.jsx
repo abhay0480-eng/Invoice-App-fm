@@ -7,7 +7,6 @@ const Layout = () => {
    <>
    <div className='flex flex-col  h-screen relative'>
     <Header/>
-    
     <Outlet/>
    </div>
    </>
