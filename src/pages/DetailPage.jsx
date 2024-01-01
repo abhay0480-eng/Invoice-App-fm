@@ -1,8 +1,12 @@
 import React from 'react'
 import { useSelector } from 'react-redux'
 import { Link, useParams } from 'react-router-dom'
+import EditLayout from '../components/EditLayout'
 
 const DetailPage = () => {
+  const [open, setOpen] = React.useState(false);
+  const handleOpen = () => setOpen(true);
+  const handleClose = () => setOpen(false);
   const {id} = useParams()
   const Data = useSelector(state=>state.invoice.invoiceData)
 
@@ -13,6 +17,7 @@ const DetailPage = () => {
 
   return (
     <>
+    <EditLayout handleOpen={handleOpen} handleClose={handleClose} open={open} details={details}/>
     <div className='max-w-5xl mx-auto mt-20'>
     <Link to='/' className='text-[#0C0E16] text-[15px] font-bold mb-5'>Go back</Link>
     <div className='grid grid-cols-7 content-center gap-x-5 bg-white p-5 rounded-lg mt-3'>
@@ -20,7 +25,7 @@ const DetailPage = () => {
       <button className={`p-3 rounded-lg col-span-3  flex justify-center items-center w-[150px] mx-2  font-bold ${details.status==="paid"?"bg-[#33D69F] text-[#33D69F] bg-opacity-[0.0571]":details.status==="pending"?"bg-[#FF8F00] text-[#FF8F00] bg-opacity-[0.0571]":"bg-[#373B53] text-[#373B53] bg-opacity-[0.0571]"}`}>
         <div className={`w-2 h-2 rounded-full mx-2 ${details.status==="paid"?"bg-[#33D69F]":details.status==="pending"?"bg-[#FF8F00] ":"bg-[#373B53] "}`} ></div>{details.status.charAt(0).toUpperCase() + details.status.slice(1)}
       </button>
-      <button className='text-[#7E88C3] text-[15px] font-bold'>Edit</button>
+      <button className='text-[#7E88C3] text-[15px] font-bold' onClick={handleOpen}>Edit</button>
       <button className='bg-[#EC5757] rounded-3xl p-2 text-[15px] font-bold text-white'>Delete</button>
       <button className='bg-[#7C5DFA] rounded-3xl p-3 text-[15px] font-bold text-white'>Mark as Paid</button>
     </div>

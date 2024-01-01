@@ -1,6 +1,8 @@
 import React from 'react'
 
 const AddInvoice = ({invoiceCount}) => {
+
+
   
   return (
     <div className='grid grid-cols-7 content-center mt-20'>
