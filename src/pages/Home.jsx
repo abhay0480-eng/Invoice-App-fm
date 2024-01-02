@@ -2,13 +2,21 @@ import React from 'react'
 import AddInvoice from '../components/AddInvoice'
 import InvoiceComponent from '../components/InvoiceComponent'
 import { useSelector } from 'react-redux'
+import FormModal from '../components/FormModal'
 
 const Home = () => {
+
+const [open, setOpen] = React.useState(false);
+  const handleOpen = () => setOpen(true);
+  const handleClose = () => setOpen(false);
 
     const Data = useSelector(state=>state.invoice.invoiceData)
   return (
     <div className='max-w-4xl mx-auto'>
-        <AddInvoice invoiceCount = {Data.length}/>
+        <AddInvoice invoiceCount = {Data.length} handleOpen={handleOpen}/>
+
+        <FormModal handleOpen={handleOpen} handleClose={handleClose} open={open} />
+
         {Data.length>0?<div className=''>
         {Data.map((item)=>{
             return(

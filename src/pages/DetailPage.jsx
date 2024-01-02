@@ -1,12 +1,18 @@
 import React from 'react'
 import { useSelector } from 'react-redux'
 import { Link, useParams } from 'react-router-dom'
-import EditLayout from '../components/EditLayout'
+import EditLayout from '../components/FormModal'
+import ConfirmDelete from '../components/ConfirmDelete'
+import FormModal from '../components/FormModal'
 
 const DetailPage = () => {
   const [open, setOpen] = React.useState(false);
   const handleOpen = () => setOpen(true);
   const handleClose = () => setOpen(false);
+
+  const [openDelete, setOpenDelete] = React.useState(false);
+  const handleOpenDelete = () => setOpenDelete(true);
+  const handleCloseDelete = () => setOpenDelete(false);
   const {id} = useParams()
   const Data = useSelector(state=>state.invoice.invoiceData)
 
@@ -17,7 +23,8 @@ const DetailPage = () => {
 
   return (
     <>
-    <EditLayout handleOpen={handleOpen} handleClose={handleClose} open={open} details={details}/>
+    <ConfirmDelete   handleCloseDelete={handleCloseDelete} openDelete={openDelete} />
+    <FormModal handleOpen={handleOpen} handleClose={handleClose} open={open} details={details}/>
     <div className='max-w-5xl mx-auto mt-20'>
     <Link to='/' className='text-[#0C0E16] text-[15px] font-bold mb-5'>Go back</Link>
     <div className='grid grid-cols-7 content-center gap-x-5 bg-white p-5 rounded-lg mt-3'>
@@ -26,7 +33,7 @@ const DetailPage = () => {
         <div className={`w-2 h-2 rounded-full mx-2 ${details.status==="paid"?"bg-[#33D69F]":details.status==="pending"?"bg-[#FF8F00] ":"bg-[#373B53] "}`} ></div>{details.status.charAt(0).toUpperCase() + details.status.slice(1)}
       </button>
       <button className='text-[#7E88C3] text-[15px] font-bold' onClick={handleOpen}>Edit</button>
-      <button className='bg-[#EC5757] rounded-3xl p-2 text-[15px] font-bold text-white'>Delete</button>
+      <button className='bg-[#EC5757] rounded-3xl p-2 text-[15px] font-bold text-white'  onClick={handleOpenDelete}>Delete</button>
       <button className='bg-[#7C5DFA] rounded-3xl p-3 text-[15px] font-bold text-white'>Mark as Paid</button>
     </div>
 
