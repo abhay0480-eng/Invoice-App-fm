@@ -4,7 +4,7 @@ import InvoiceComponent from '../components/InvoiceComponent'
 import { useSelector } from 'react-redux'
 import FormModal from '../components/FormModal'
 
-const Home = () => {
+const Dashboard = () => {
 
 const [open, setOpen] = React.useState(false);
   const handleOpen = () => setOpen(true);
@@ -38,4 +38,4 @@ const [open, setOpen] = React.useState(false);
   )
 }
 
-export default Home
+export default Dashboard

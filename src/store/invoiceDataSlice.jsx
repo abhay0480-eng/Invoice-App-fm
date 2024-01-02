@@ -4,7 +4,7 @@ import { createSlice } from '@reduxjs/toolkit'
 import Data from '../data.json'
 
 const initialState = {
-    invoiceData: Data
+    invoiceData: {}
 }
 
 const invoiceDataSlice = createSlice({
