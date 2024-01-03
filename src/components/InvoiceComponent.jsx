@@ -1,20 +1,24 @@
-import React from 'react'
+import React, { useState } from 'react'
 import { Link } from 'react-router-dom'
 
-const InvoiceComponent = ({id,paymentDue,status,clientName,total}) => {
+const InvoiceComponent = ({id,createdAt,status,clientName,total}) => {
+  const dateOnly = new Date(createdAt).toISOString().split('T')[0];
+
+const totalNum = total.map((item)=>parseInt(item.total))
+const totalAmount = totalNum.reduce((acc, num) => acc + num, 0);
   return (
     <Link to={`/detail/${id}`} className='h-[72px] rounded-xl shadow-xl grid grid-cols-5 gap-x-10 content-center my-10 px-5 text-center'>
        
             <p className='text-[#0C0E16] text-[15px] font-bold  m-auto'><span className='text-[#7E88C3] '>#</span>{id}</p>
        
         
-            <p className='text-[#7E88C3] text-[13px] font-medium m-auto'>{paymentDue}</p>
+            <p className='text-[#7E88C3] text-[13px] font-medium m-auto'>{dateOnly}</p>
         
        
             <p className='text-[#858BB2] text-[13px] font-medium m-auto'>{clientName}</p>
        
        
-            <p className='text-[#0C0E16] text-[15px] font-bold m-auto'>£{total}</p>
+            <p className='text-[#0C0E16] text-[15px] font-bold m-auto'>£{totalAmount}</p>
       
         <div className='flex justify-between items-center'>
 

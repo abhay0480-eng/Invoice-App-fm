@@ -14,17 +14,19 @@ const DetailPage = () => {
   const handleOpenDelete = () => setOpenDelete(true);
   const handleCloseDelete = () => setOpenDelete(false);
   const {id} = useParams()
-  const Data = useSelector(state=>state.invoice.invoiceData)
 
-  const invoiceDetails = Data.filter((item)=> item.id === id)
-  console.log(invoiceDetails);
+  const items = JSON.parse(localStorage.getItem('getInvoice'));
+  const Data = useSelector(state=>state.invoice.invoiceData)
+  console.log(items);
+  const invoiceDetails = items?.filter((item)=> item.$id === id)
+  console.log("invoiceDetails",invoiceDetails[0]);
 
   const details = invoiceDetails[0]
 
   return (
     <>
     <ConfirmDelete   handleCloseDelete={handleCloseDelete} openDelete={openDelete} />
-    <FormModal handleOpen={handleOpen} handleClose={handleClose} open={open} details={details}/>
+    {/* <FormModal handleOpen={handleOpen} handleClose={handleClose} open={open} details={details}/> */}
     <div className='max-w-5xl mx-auto mt-20'>
     <Link to='/' className='text-[#0C0E16] text-[15px] font-bold mb-5'>Go back</Link>
     <div className='grid grid-cols-7 content-center gap-x-5 bg-white p-5 rounded-lg mt-3'>
@@ -40,15 +42,15 @@ const DetailPage = () => {
     <div className='bg-white p-10 mt-10'>
       <div className='flex justify-between '>
         <div>
-        <p className='text-[#0C0E16] text-[15px] font-bold  m-auto'><span className='text-[#7E88C3] '>#</span>{details.id}</p>
+        <p className='text-[#0C0E16] text-[15px] font-bold  m-auto'><span className='text-[#7E88C3] '>#</span>{details.$id}</p>
         <p className='text-[13px] font-medium text-[#7E88C3] my-1'>{details.description}</p>
         </div>
 
         <div className='text-right text-[#7E88C3] text-[13px] font-medium'>
-          <p>{details.senderAddress.street}</p>
-          <p>{details.senderAddress.city}</p>
-          <p>{details.senderAddress.postCode}</p>
-          <p>{details.senderAddress.country}</p>
+          <p>{details.senderAddressStreet}</p>
+          <p>{details.senderAddressCity}</p>
+          <p>{details.senderAddressPostCode}</p>
+          <p>{details.senderAddressCountry}</p>
         </div>
       </div>
 
@@ -73,10 +75,10 @@ const DetailPage = () => {
           <p className='text-[#0C0E16] text-[15px] font-bold  m-auto'>{details.paymentDue}</p>
         </div>
         <div className='text-left col-span-3 text-[#7E88C3] text-[13px] font-medium'>
-          <p>{details.clientAddress.street}</p>
-          <p>{details.clientAddress.city}</p>
-          <p>{details.clientAddress.postCode}</p>
-          <p>{details.clientAddress.country}</p>
+          <p>{details.clientAddressStreet}</p>
+          <p>{details.clientAddressCity}</p>
+          {/* <p>{details.clientAddress.postCode}</p> */}
+          <p>{details.clientAddressCountry}</p>
         </div>
       </div>
 

@@ -1,8 +1,13 @@
-import React from 'react'
+import React, { useState } from 'react'
 import Modal from '@mui/material/Modal';
 import { useForm } from 'react-hook-form';
+import { useDispatch } from 'react-redux';
+import { stopLoader } from '../store/loader';
+import service from '../appwrite/config';
+import ItemsForm from './itemsForm';
 
-const FormModal = ({open,handleClose,handleOpen,details}) => {
+const FormModal = ({open,handleClose,handleOpen,details,invoiceData,id}) => {
+  const dispatch = useDispatch()
 
   const {
     register,
@@ -10,42 +15,67 @@ const FormModal = ({open,handleClose,handleOpen,details}) => {
     watch,
     formState: { errors },
   } = useForm()
-  
+  const [error,setError] =useState("")
 
-  const onSubmit = (data) => {
-    // Construct the desired object structure using the form data
-    const formData = {
-      id: details?.id || '', 
-      createdAt: details?.createdAt || '', // Replace with the appropriate value
-      paymentDue: data['Invoice Date'] || '', // Assuming 'Invoice Date' is the field for paymentDue
-      description: data['Project Description'] || '', // Assuming 'Project Description' is the field for description
-      paymentTerms: details?.paymentTerms || 0, // Replace with the appropriate value
-      clientName: data["Client’s Name"] || '', // Assuming 'Client’s Name' is the field for clientName
-      clientEmail: data["Client’s Email"] || '', // Assuming 'Client’s Email' is the field for clientEmail
-      status: details?.status || 'pending', // Replace with the appropriate value
-      senderAddress: {
-        street: data['Sender Street Address'] || '',
-        city: data['Sender City'] || '',
-        postCode: data['Sender Post Code'] || '',
-        country: data['Sender Country'] || '',
-      },
-      clientAddress: {
-        street: data['Street Address'] || '',
-        city: data['City'] || '',
-        postCode: data['Post Code'] || '',
-        country: data['Country'] || '',
-      },
-      items: details?.items.map((item, index) => ({
-        name: data[`ItemName ${index}`] || '',
-        quantity: parseFloat(data[`Qty ${index}`]) || 0,
-        price: parseFloat(data[`Price ${index}`]) || 0,
-        total: parseFloat(data[`Total ${index}`]) || 0,
-      })) || [],
-      total: parseFloat(details?.total) || 0, // Replace with the appropriate value
+  const [Items, setItems] = useState([
+    {
+      name: '',
+      quantity: '',
+      price: '',
+      total: '',
+    },
+  ]);
+
+  const handleItemChange = (index, field, value) => {
+    const updatedItems = [...Items];
+    updatedItems[index][field] = value;
+    setItems(updatedItems);
+  };
+
+  const handleAddNewItem = () => {
+    const newItem = {
+      name: '',
+      quantity: '',
+      price: '',
+      total: '',
     };
 
-    console.log(formData);
+    setItems([...Items, newItem]);
   };
+
+  const handleRemoveItem = (index) => {
+    const updatedItems = [...Items];
+    updatedItems.splice(index, 1);
+    setItems(updatedItems);
+  };
+
+
+
+  const onSubmit = async(data ) => {
+    
+    setError("")
+    console.log(Object.values(invoiceData).length === 0);
+    try {
+      
+      // dispatch(startLoader())
+      
+      // if(Object.values(invoiceData).length === 0){
+        console.log("p",{...data,UserID:id});
+      const invoiceRes =   await service.addInvoiceInfo({...data,UserID:id,status:"pending",items:Items} )
+
+      console.log("invoiceRes",invoiceRes);
+      // }else{
+      //   const invoiceRes = await service.updateInvoiceInfo({...data},invoiceData.$id,)
+      // }
+      
+    } catch (error) {
+        setError(error.message)
+    }finally{
+      dispatch(stopLoader())
+    }
+  }
+
+
   return (
     <div className='bg-white '>
       
@@ -61,14 +91,18 @@ const FormModal = ({open,handleClose,handleOpen,details}) => {
 
           <p className='text-[#0C0E16] text-[24px] font-bold'>Edit <span className='text-[#888EB0]'>#</span>{details?.id}</p>
 
-          {/*  */}
+        
           <p className='text-[#7C5DFA] font-bold text-[15px] my-6'>Bill From</p>
-          <form onSubmit={handleSubmit(onSubmit)} className='h-[]'>
+
+  {/* form starts */}
+          <form onSubmit={handleSubmit(onSubmit)} className=''>
+
+            {/* sender address starts */}
 
           <label className='text-[13px] font-medium text-[#7E88C3]'>Street Address</label>
           <input 
             defaultValue={details?.senderAddress?.street}
-            {...register("Sender Street Address")} 
+            {...register("senderAddressStreet")} 
             className='border-[1px] border-[#DFE3FA] w-full p-3 rounded-md text-[#0C0E16] font-bold text-[15px]'
           />
 
@@ -77,7 +111,7 @@ const FormModal = ({open,handleClose,handleOpen,details}) => {
               <label className='text-[13px] font-medium text-[#7E88C3]'>City</label>
               <input 
                 defaultValue={details?.senderAddress?.city}
-                {...register("Sender City")} 
+                {...register("senderAddressCity")} 
                 className='border-[1px] border-[#DFE3FA] w-full p-3 rounded-md text-[#0C0E16] font-bold text-[15px]'
               />
             </div>
@@ -86,7 +120,7 @@ const FormModal = ({open,handleClose,handleOpen,details}) => {
               <label className='text-[13px] font-medium text-[#7E88C3]'>Post Code</label>
               <input 
                 defaultValue={details?.senderAddress?.postCode}
-                {...register("Sender Post Code")} 
+                {...register("senderAddressPostCode")} 
                 className='border-[1px] border-[#DFE3FA] w-full p-3 rounded-md text-[#0C0E16] font-bold text-[15px]'
               />
             </div>
@@ -95,40 +129,49 @@ const FormModal = ({open,handleClose,handleOpen,details}) => {
             <label className='text-[13px] font-medium text-[#7E88C3]'>Country</label>
             <input 
               defaultValue={details?.senderAddress?.country}
-              {...register("Sender Country")} 
+              {...register("senderAddressCountry")} 
               className='border-[1px] border-[#DFE3FA] w-full p-3 rounded-md text-[#0C0E16] font-bold text-[15px]'
             />
             </div>
           </div>
 
+            {/* sender address ends */}
 
 
-          {/*  */}
+
+
+          {/* clientName */}
           <p className='text-[#7C5DFA] font-bold text-[15px] my-6'>Bill To</p>
 
           <div>
           <label className='text-[13px] font-medium text-[#7E88C3]'>Client’s Name</label>
           <input 
             defaultValue={details?.clientName}
-            {...register("Client’s Name")} 
+            {...register("clientName")} 
             className='border-[1px] border-[#DFE3FA] w-full p-3 rounded-md text-[#0C0E16] font-bold text-[15px]'
           />
           </div>
+
+
+          {/* clientEmail */}
 
           <div>
           <label className='text-[13px] font-medium text-[#7E88C3]'>Client’s Email</label>
           <input 
             defaultValue={details?.clientEmail}
-            {...register("Client’s Email")} 
+            {...register("clientEmail")} 
             className='border-[1px] border-[#DFE3FA] w-full p-3 rounded-md text-[#0C0E16] font-bold text-[15px]'
           />
           </div>
+
+
+          {/* clientAddress starts */}
 
           <div>
           <label className='text-[13px] font-medium text-[#7E88C3]'>Street Address</label>
           <input 
             defaultValue={details?.clientAddress?.street}
-            {...register("Street Address")} 
+            {...register("clientAddressStreet")} 
             className='border-[1px] border-[#DFE3FA] w-full p-3 rounded-md text-[#0C0E16] font-bold text-[15px]'
           />
           </div>
@@ -138,7 +181,7 @@ const FormModal = ({open,handleClose,handleOpen,details}) => {
               <label className='text-[13px] font-medium text-[#7E88C3]'>City</label>
               <input 
                 defaultValue={details?.clientAddress?.city}
-                {...register("City")} 
+                {...register("clientAddressCity")} 
                 className='border-[1px] border-[#DFE3FA] w-full p-3 rounded-md text-[#0C0E16] font-bold text-[15px]'
               />
             </div>
@@ -147,7 +190,7 @@ const FormModal = ({open,handleClose,handleOpen,details}) => {
               <label className='text-[13px] font-medium text-[#7E88C3]'>Post Code</label>
               <input 
                 defaultValue={details?.clientAddress?.postCode}
-                {...register("Post Code")} 
+                {...register("clientAddress.postCode")} 
                 className='border-[1px] border-[#DFE3FA] w-full p-3 rounded-md text-[#0C0E16] font-bold text-[15px]'
               />
             </div>
@@ -156,11 +199,17 @@ const FormModal = ({open,handleClose,handleOpen,details}) => {
             <label className='text-[13px] font-medium text-[#7E88C3]'>Country</label>
             <input 
               defaultValue={details?.clientAddress?.country}
-              {...register("Country")} 
+              {...register("clientAddressCountry")} 
               className='border-[1px] border-[#DFE3FA] w-full p-3 rounded-md text-[#0C0E16] font-bold text-[15px]'
             />
             </div>
           </div>
+
+          {/* clientAddress ends */}
+
+
+
+          {/* paymentDue */}
 
           <div className='grid grid-cols-2 gap-x-5 mt-3'>
             <div>
@@ -172,23 +221,31 @@ const FormModal = ({open,handleClose,handleOpen,details}) => {
                 className='border-[1px] border-[#DFE3FA] w-full p-3 rounded-md text-[#0C0E16] font-bold text-[15px]'
               />
             </div>
+
+            
+          {/* paymentTerms */}
             
             <div>
               <label className='text-[13px] font-medium text-[#7E88C3]'>Payment Terms</label>
-              <select {...register("Payment Terms")} value={`Net ${details?.paymentTerms} Days`} className='border-[1px] border-[#DFE3FA] w-full p-4 rounded-md text-[#0C0E16] font-bold text-[15px]'>
-                <option value={`Net ${details?.paymentTerms} Days`}>{`Net ${details?.paymentTerms} Days`}</option>
+              <select {...register("paymentTerms")}value={ 1} className='border-[1px] border-[#DFE3FA] w-full p-4 rounded-md text-[#0C0E16] font-bold text-[15px]'>
+                <option value={1}>{`Net 1 Days`}</option>
               </select>
             </div>
           </div>
+          {/* description */}
 
           <div>
           <label className='text-[13px] font-medium text-[#7E88C3]'>Project Description</label>
           <input 
             defaultValue={details?.description}
-            {...register("Project Description")} 
+            {...register("description")} 
             className='border-[1px] border-[#DFE3FA] w-full p-3 rounded-md text-[#0C0E16] font-bold text-[15px]'
           />
           </div>
+
+
+
+          {/* Item List */}
 
           <p className='text-[#777F98] text-[18px] font-bold mt-4 mb-3'>Item List</p>
 
@@ -200,51 +257,20 @@ const FormModal = ({open,handleClose,handleOpen,details}) => {
             <p className='col-span-2'>Total</p>
           </div>
 
-          {details?.items?.map((item,index)=>{
-            return(
-            <div key={index} className='grid grid-cols-9 gap-x-4 content-center text-[#7E88C3] text-[13px] font-medium my-4'>
-            <div  className='col-span-3'>
-            <input 
-              defaultValue={item?.name}
-              {...register(`ItemName ${index}`)} 
-              className='border-[1px] border-[#DFE3FA] w-full p-3 rounded-md text-[#0C0E16] font-bold text-[15px]'
-            />
-            </div>
-            <div className='col-span-1'>
-              <input 
-              defaultValue={item?.quantity }
-              {...register( `Qty ${index}`)} 
-              className='border-[1px] border-[#DFE3FA] w-full p-3 rounded-md text-[#0C0E16] font-bold text-[15px]'
-            />
-            </div>
-            <div className='col-span-2'>
-            <input 
-              defaultValue={item?.price}
-              {...register( `Price ${index}`)} 
-              className='border-[1px] border-[#DFE3FA] w-full p-3 rounded-md text-[#0C0E16] font-bold text-[15px]'
-            />
-            </div>
-            <div className='col-span-3 flex justify-between items-center gap-x-3'>
-            <input 
-              defaultValue={item?.total}
-              {...register( `Total ${index}`)} 
-              className='border-[1px] border-[#DFE3FA] w-full p-3 rounded-md text-[#0C0E16] font-bold text-[15px]'
-            />
-            <div className='col-span-1 cursor-pointer'>
-              <img src='/assets/icon-delete.svg' alt='' className=' ' />
-            </div>
-            </div>
-          </div>
-            )
-          })}
-
-          <button className='text-[#7E88C3] text-[15px] font-bold bg-[#F9FAFE] rounded-3xl p-3 w-full'>+ Add New Item</button>
 
           <div className='flex justify-end gap-x-3  items-center text-center text-[15px] font-bold mt-4 w-[619px] left-[105px] py-4 bg-white fixed bottom-0'>
-            <button className='text-[#7E88C3] bg-[#F9FAFE] rounded-3xl p-3 w-[150px] '>Cancel</button>
+            <div className='text-[#7E88C3] bg-[#F9FAFE] rounded-3xl p-3 w-[150px] cursor-pointer '>Cancel</div>
             <button className='text-[#fff] bg-[#7C5DFA] rounded-3xl p-3 w-[150px] mr-4'>Save Changes</button>
           </div>
           </form>
+
+          {Items.map((item, index) => (
+          <ItemsForm key={index} itemIndex={index} Items={Items} setItems={setItems} onItemChange={handleItemChange} onRemoveItem={handleRemoveItem} />
+        ))}
+
+      <button onClick={handleAddNewItem} className='text-[#7E88C3] text-[15px] font-bold bg-[#F9FAFE] rounded-3xl p-3 w-full'>
+        + Add New Item
+      </button>
         </div>
        </div>
       </Modal>

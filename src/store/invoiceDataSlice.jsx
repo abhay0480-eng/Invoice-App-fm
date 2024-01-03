@@ -13,9 +13,10 @@ const invoiceDataSlice = createSlice({
         reducers:{
             getInvoiceData: (state,action) =>{
                 state.invoiceData = action.payload
-                // localStorage.setItem('getProfileDetails', JSON.stringify(action.payload));
+                localStorage.setItem('getInvoice', JSON.stringify(action.payload));
             },
         }
+        
 })
 
 

@@ -1,6 +1,6 @@
 /* eslint-disable no-unused-vars */
-import conf from "../config/conf";
 import { Client, ID, Databases,Query } from "appwrite";
+import conf from "../conf/conf";
 
 export class Service{
     client = new Client()
@@ -12,10 +12,10 @@ export class Service{
             this.databases = new Databases(this.client)
     }
 
-    async addInvoiceInfo({paymentDue,description,paymentTerms,clientName,status,clientEmail,total}){
+    async addInvoiceInfo({paymentDue,description,paymentTerms,clientName,status,clientEmail,total,UserID,clientAddressCountry,clientAddressCity,clientAddressStreet,senderAddressCountry,senderAddressPostCode,senderAddressCity,senderAddressStreet,items}){
         try{
            const invoiceRes =  await this.databases.createDocument(conf.appwriteDatabaseId,conf.appwriteCollectionId,ID.unique(),
-                {paymentDue,description,paymentTerms,clientName,status,clientEmail,total}
+                {paymentDue,description,paymentTerms,clientName,status,clientEmail,total,UserID,clientAddressCountry,clientAddressCity,clientAddressStreet,senderAddressCountry,senderAddressPostCode,senderAddressCity,senderAddressStreet,items}
 
             )
             return invoiceRes
@@ -55,7 +55,7 @@ export class Service{
         try{
            const allInvoice = await this.databases.listDocuments(conf.appwriteDatabaseId,conf.appwriteCollectionId,
                 [
-                    Query.equal('userID',[id] )
+                    Query.equal('UserID',[id] )
                 ]
             )
 

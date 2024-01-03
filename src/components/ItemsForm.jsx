@@ -1,0 +1,44 @@
+import React from 'react'
+
+const ItemsForm = ({ setItems, Items, itemIndex, onItemChange,onRemoveItem }) => {
+  return (
+    <div  className='grid grid-cols-9 gap-x-4 content-center text-[#7E88C3] text-[13px] font-medium my-4'>
+            <div  className='col-span-3'>
+            <input 
+              defaultValue="" 
+              onChange={(e) => onItemChange(itemIndex, 'name', e.target.value)}
+             
+              className='border-[1px] border-[#DFE3FA] w-full p-3 rounded-md text-[#0C0E16] font-bold text-[15px]'
+            />
+            </div>
+            <div className='col-span-1'>
+              <input 
+              defaultValue=""
+              onChange={(e) => onItemChange(itemIndex, 'quantity', e.target.value)}
+              className='border-[1px] border-[#DFE3FA] w-full p-3 rounded-md text-[#0C0E16] font-bold text-[15px]'
+            />
+            </div>
+            <div className='col-span-2'>
+            <input 
+              defaultValue=""
+              onChange={(e) => onItemChange(itemIndex, 'price', e.target.value)}
+
+              className='border-[1px] border-[#DFE3FA] w-full p-3 rounded-md text-[#0C0E16] font-bold text-[15px]'
+            />
+            </div>
+            <div className='col-span-3 flex justify-between items-center gap-x-3'>
+            <input 
+              defaultValue="" 
+              onChange={(e) => onItemChange(itemIndex, 'total', e.target.value)}
+
+              className='border-[1px] border-[#DFE3FA] w-full p-3 rounded-md text-[#0C0E16] font-bold text-[15px]'
+            />
+            <div className='col-span-1 cursor-pointer'>
+              <img src='/assets/icon-delete.svg' alt='' className=' ' onClick={() => onRemoveItem(itemIndex)}/>
+            </div>
+            </div>
+          </div>
+  )
+}
+
+export default ItemsForm
