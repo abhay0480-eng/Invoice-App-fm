@@ -1,11 +1,18 @@
 import React from 'react'
-import { useSelector } from 'react-redux'
+import { useDispatch, useSelector } from 'react-redux'
 import { Link, useParams } from 'react-router-dom'
 import EditLayout from '../components/FormModal'
 import ConfirmDelete from '../components/ConfirmDelete'
 import FormModal from '../components/FormModal'
+import { startLoader, stopLoader } from '../store/loader'
+import service from '../appwrite/config'
+import { Backdrop, CircularProgress } from '@mui/material'
 
 const DetailPage = () => {
+
+  const dispatch = useDispatch()
+  const isLoading = useSelector((state) => state.loader.status);
+
   const [open, setOpen] = React.useState(false);
   const handleOpen = () => setOpen(true);
   const handleClose = () => setOpen(false);
@@ -16,17 +23,34 @@ const DetailPage = () => {
   const {id} = useParams()
 
   const items = JSON.parse(localStorage.getItem('getInvoice'));
-  const Data = useSelector(state=>state.invoice.invoiceData)
-  console.log(items);
   const invoiceDetails = items?.filter((item)=> item.$id === id)
   console.log("invoiceDetails",invoiceDetails[0]);
 
   const details = invoiceDetails[0]
 
+  const dateOnly = new Date(details.$createdAt).toISOString().split('T')[0];
+
+  const totalNum = details.items.map((item)=>parseInt(item.total))
+  const totalAmount = totalNum.reduce((acc, num) => acc + num, 0);
+
+  async function changeStatus () {
+    try {
+      dispatch(startLoader())
+      const invoiceRes = await service.updateStatus({status:"paid"},details.$id)
+    } catch (error) {
+        // setError(error.message)
+    }finally{
+      dispatch(stopLoader())
+    }
+  }
+
   return (
     <>
-    <ConfirmDelete   handleCloseDelete={handleCloseDelete} openDelete={openDelete} />
-    {/* <FormModal handleOpen={handleOpen} handleClose={handleClose} open={open} details={details}/> */}
+     <Backdrop sx={{ color: '#fff', zIndex: (theme) => theme.zIndex.drawer + 1 }} open={isLoading}>
+        <CircularProgress color="inherit" />
+      </Backdrop>
+    <ConfirmDelete   handleCloseDelete={handleCloseDelete} openDelete={openDelete} detailsid = {details.$id} />
+    <FormModal handleOpen={handleOpen} handleClose={handleClose} open={open} details={details} addNew={false}/>
     <div className='max-w-5xl mx-auto mt-20'>
     <Link to='/' className='text-[#0C0E16] text-[15px] font-bold mb-5'>Go back</Link>
     <div className='grid grid-cols-7 content-center gap-x-5 bg-white p-5 rounded-lg mt-3'>
@@ -36,7 +60,7 @@ const DetailPage = () => {
       </button>
       <button className='text-[#7E88C3] text-[15px] font-bold' onClick={handleOpen}>Edit</button>
       <button className='bg-[#EC5757] rounded-3xl p-2 text-[15px] font-bold text-white'  onClick={handleOpenDelete}>Delete</button>
-      <button className='bg-[#7C5DFA] rounded-3xl p-3 text-[15px] font-bold text-white'>Mark as Paid</button>
+      <button onClick={()=>changeStatus()} className='bg-[#7C5DFA] rounded-3xl p-3 text-[15px] font-bold text-white'>Mark as Paid</button>
     </div>
 
     <div className='bg-white p-10 mt-10'>
@@ -57,7 +81,7 @@ const DetailPage = () => {
       <div className='grid grid-cols-4 mt-3'>
       <div>
         <p className='text-[13px] font-medium text-[#7E88C3] my-1'>Invoice Date</p>
-        <p className='text-[#0C0E16] text-[15px] font-bold  m-auto'>{details.createdAt}</p>
+        <p className='text-[#0C0E16] text-[15px] font-bold  m-auto'>{dateOnly}</p>
       </div>
         <div>
         <p className='text-[13px] font-medium text-[#7E88C3] my-1'>Bill To</p>
@@ -105,7 +129,7 @@ const DetailPage = () => {
 
         <div className='py-5 flex justify-between items-center px-10 bg-[#373B53] rounded-b-xl'>
           <p className='text-[#fff] font-medium text-[13px]'>Amount Due</p>
-          <p className='text-[#fff] font-bold text-[24px]'>£{details.total}</p>
+          <p className='text-[#fff] font-bold text-[24px]'>£{totalAmount}</p>
         </div>
        
       </div>

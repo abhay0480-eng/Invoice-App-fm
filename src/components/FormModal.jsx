@@ -2,12 +2,14 @@ import React, { useState } from 'react'
 import Modal from '@mui/material/Modal';
 import { useForm } from 'react-hook-form';
 import { useDispatch } from 'react-redux';
-import { stopLoader } from '../store/loader';
+import { startLoader, stopLoader } from '../store/loader';
 import service from '../appwrite/config';
 import ItemsForm from './itemsForm';
+import { useNavigate } from 'react-router-dom';
 
-const FormModal = ({open,handleClose,handleOpen,details,invoiceData,id}) => {
+const FormModal = ({open,handleClose,handleOpen,details,invoiceData,id,addNew}) => {
   const dispatch = useDispatch()
+  const navigate = useNavigate()
 
   const {
     register,
@@ -52,21 +54,19 @@ const FormModal = ({open,handleClose,handleOpen,details,invoiceData,id}) => {
 
 
   const onSubmit = async(data ) => {
-    
     setError("")
-    console.log(Object.values(invoiceData).length === 0);
     try {
-      
-      // dispatch(startLoader())
-      
-      // if(Object.values(invoiceData).length === 0){
-        console.log("p",{...data,UserID:id});
+      dispatch(startLoader())
+      if(addNew){
       const invoiceRes =   await service.addInvoiceInfo({...data,UserID:id,status:"pending",items:Items} )
-
       console.log("invoiceRes",invoiceRes);
-      // }else{
-      //   const invoiceRes = await service.updateInvoiceInfo({...data},invoiceData.$id,)
-      // }
+      if(invoiceRes){
+        navigate('/')
+      }
+      }else{
+        const invoiceRes =  await service.updateInvoiceInfo({...data},details.$id)
+        console.log("invoiceResUpdate",invoiceRes);
+      }
       
     } catch (error) {
         setError(error.message)
@@ -89,7 +89,7 @@ const FormModal = ({open,handleClose,handleOpen,details,invoiceData,id}) => {
        <div className='bg-white w-[619px] h-[93vh]  fixed left-[105px] p-10 overflow-y-auto  '>
         <div className=''>
 
-          <p className='text-[#0C0E16] text-[24px] font-bold'>Edit <span className='text-[#888EB0]'>#</span>{details?.id}</p>
+         {!addNew?<p className='text-[#0C0E16] text-[24px] font-bold'>Edit <span className='text-[#888EB0]'>#</span>{details?.$id}</p>:<p className='text-[#0C0E16] text-[24px] font-bold'>New Invoice</p>}
 
         
           <p className='text-[#7C5DFA] font-bold text-[15px] my-6'>Bill From</p>
@@ -101,7 +101,7 @@ const FormModal = ({open,handleClose,handleOpen,details,invoiceData,id}) => {
 
           <label className='text-[13px] font-medium text-[#7E88C3]'>Street Address</label>
           <input 
-            defaultValue={details?.senderAddress?.street}
+            defaultValue={details?.senderAddressStreet}
             {...register("senderAddressStreet")} 
             className='border-[1px] border-[#DFE3FA] w-full p-3 rounded-md text-[#0C0E16] font-bold text-[15px]'
           />
@@ -110,7 +110,7 @@ const FormModal = ({open,handleClose,handleOpen,details,invoiceData,id}) => {
             <div>
               <label className='text-[13px] font-medium text-[#7E88C3]'>City</label>
               <input 
-                defaultValue={details?.senderAddress?.city}
+                defaultValue={details?.senderAddressCity}
                 {...register("senderAddressCity")} 
                 className='border-[1px] border-[#DFE3FA] w-full p-3 rounded-md text-[#0C0E16] font-bold text-[15px]'
               />
@@ -119,7 +119,7 @@ const FormModal = ({open,handleClose,handleOpen,details,invoiceData,id}) => {
             <div>
               <label className='text-[13px] font-medium text-[#7E88C3]'>Post Code</label>
               <input 
-                defaultValue={details?.senderAddress?.postCode}
+                defaultValue={details?.senderAddressPostCode}
                 {...register("senderAddressPostCode")} 
                 className='border-[1px] border-[#DFE3FA] w-full p-3 rounded-md text-[#0C0E16] font-bold text-[15px]'
               />
@@ -128,7 +128,7 @@ const FormModal = ({open,handleClose,handleOpen,details,invoiceData,id}) => {
             <div>
             <label className='text-[13px] font-medium text-[#7E88C3]'>Country</label>
             <input 
-              defaultValue={details?.senderAddress?.country}
+              defaultValue={details?.senderAddressCountry}
               {...register("senderAddressCountry")} 
               className='border-[1px] border-[#DFE3FA] w-full p-3 rounded-md text-[#0C0E16] font-bold text-[15px]'
             />
@@ -170,7 +170,7 @@ const FormModal = ({open,handleClose,handleOpen,details,invoiceData,id}) => {
           <div>
           <label className='text-[13px] font-medium text-[#7E88C3]'>Street Address</label>
           <input 
-            defaultValue={details?.clientAddress?.street}
+            defaultValue={details?.clientAddressStreet}
             {...register("clientAddressStreet")} 
             className='border-[1px] border-[#DFE3FA] w-full p-3 rounded-md text-[#0C0E16] font-bold text-[15px]'
           />
@@ -180,7 +180,7 @@ const FormModal = ({open,handleClose,handleOpen,details,invoiceData,id}) => {
             <div>
               <label className='text-[13px] font-medium text-[#7E88C3]'>City</label>
               <input 
-                defaultValue={details?.clientAddress?.city}
+                defaultValue={details?.clientAddressCity}
                 {...register("clientAddressCity")} 
                 className='border-[1px] border-[#DFE3FA] w-full p-3 rounded-md text-[#0C0E16] font-bold text-[15px]'
               />
@@ -189,8 +189,8 @@ const FormModal = ({open,handleClose,handleOpen,details,invoiceData,id}) => {
             <div>
               <label className='text-[13px] font-medium text-[#7E88C3]'>Post Code</label>
               <input 
-                defaultValue={details?.clientAddress?.postCode}
-                {...register("clientAddress.postCode")} 
+                defaultValue={details?.clientAddressPostCode}
+                {...register("clientAddressPostCode")} 
                 className='border-[1px] border-[#DFE3FA] w-full p-3 rounded-md text-[#0C0E16] font-bold text-[15px]'
               />
             </div>
@@ -198,7 +198,7 @@ const FormModal = ({open,handleClose,handleOpen,details,invoiceData,id}) => {
             <div>
             <label className='text-[13px] font-medium text-[#7E88C3]'>Country</label>
             <input 
-              defaultValue={details?.clientAddress?.country}
+              defaultValue={details?.clientAddressCountry}
               {...register("clientAddressCountry")} 
               className='border-[1px] border-[#DFE3FA] w-full p-3 rounded-md text-[#0C0E16] font-bold text-[15px]'
             />
@@ -217,7 +217,7 @@ const FormModal = ({open,handleClose,handleOpen,details,invoiceData,id}) => {
               <input 
                 type="date"
                 defaultValue={details?.paymentDue}
-                {...register("Invoice Date")} 
+                {...register("paymentDue")} 
                 className='border-[1px] border-[#DFE3FA] w-full p-3 rounded-md text-[#0C0E16] font-bold text-[15px]'
               />
             </div>
@@ -227,8 +227,11 @@ const FormModal = ({open,handleClose,handleOpen,details,invoiceData,id}) => {
             
             <div>
               <label className='text-[13px] font-medium text-[#7E88C3]'>Payment Terms</label>
-              <select {...register("paymentTerms")}value={ 1} className='border-[1px] border-[#DFE3FA] w-full p-4 rounded-md text-[#0C0E16] font-bold text-[15px]'>
+              <select {...register("paymentTerms")}  className='border-[1px] border-[#DFE3FA] w-full p-4 rounded-md text-[#0C0E16] font-bold text-[15px]'>
                 <option value={1}>{`Net 1 Days`}</option>
+                <option value={7}>{`Net 7 Days`}</option>
+                <option value={14}>{`Net 14 Days`}</option>
+                <option value={30}>{`Net 30 Days`}</option>
               </select>
             </div>
           </div>
@@ -265,7 +268,7 @@ const FormModal = ({open,handleClose,handleOpen,details,invoiceData,id}) => {
           </form>
 
           {Items.map((item, index) => (
-          <ItemsForm key={index} itemIndex={index} Items={Items} setItems={setItems} onItemChange={handleItemChange} onRemoveItem={handleRemoveItem} />
+          <ItemsForm key={index} itemIndex={index} Items={Items} setItems={setItems} onItemChange={handleItemChange} onRemoveItem={handleRemoveItem} details={details?.items[index]} />
         ))}
 
       <button onClick={handleAddNewItem} className='text-[#7E88C3] text-[15px] font-bold bg-[#F9FAFE] rounded-3xl p-3 w-full'>

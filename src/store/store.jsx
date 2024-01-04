@@ -2,6 +2,7 @@ import { configureStore } from "@reduxjs/toolkit";
 import invoiceDataSlice from "./invoiceDataSlice";
 import authSlice from "./authSlice";
 import loaderSlice from './loader'
+import filterInvoiceSlice from './fitterInvoiceSlice'
 
 
  const store = configureStore({
@@ -9,6 +10,7 @@ import loaderSlice from './loader'
         invoice: invoiceDataSlice,
         auth: authSlice,
         loader: loaderSlice,
+        filter: filterInvoiceSlice
     }
 })
 

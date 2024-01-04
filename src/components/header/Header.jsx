@@ -17,19 +17,19 @@ const Header = () => {
     })
   }
   return (
-    <div className='fixed top-0 left-0 w-[103px] h-screen bg-[#373B53] flex flex-col justify-between  z-50  rounded-r-3xl shadow-lg'>
-        <div className='h-[103px] bg-[#7C5DFA] flex justify-center items-center  rounded-r-3xl'>
+    <div className='md:fixed static top-0 left-0 h-[72px] w-full md:w-[103px] md:h-screen bg-[#373B53] flex md:flex-col justify-between  z-50  md:rounded-r-3xl shadow-lg'>
+        <div className='md:h-[103px] h-full w-[72px] md:w-auto bg-[#7C5DFA] flex justify-center items-center  rounded-r-3xl'>
         <img src='/assets/logo.svg' alt='' className=''/>
         </div>
 
-        <div>
-            <div className='h-[103px] flex justify-center items-center  '>
+        <div className='flex justify-between items-center md:block'>
+            <div className='md:h-[103px] h-[72px] flex justify-center items-center  '>
                 <img src={`/assets/icon-sun.svg`} alt='' className='' />
             </div>
-          {(authStatus) &&  <div className='h-[103px] flex justify-center items-center  '>
+          {(authStatus) &&  <div className='md:h-[103px] h-[72px] flex justify-center items-center mx-3 md:mx-auto '>
                 <img src='/assets/image-avatar.jpg' alt='' className='rounded-full w-[40px] h-[40px]'/>
             </div>}
-           {(authStatus) && <div className='  p-1 rounded-lg text-white cursor-pointer text-[14px] font-bold text-center my-1 '  onClick={() => logoutHandler()}>Logout</div>}
+           {(authStatus) && <div className=' px-2 md:px-auto p-1 rounded-lg text-white cursor-pointer text-[14px] font-bold text-center my-1 '  onClick={() => logoutHandler()}>Logout</div>}
         </div>
     </div>
   )
