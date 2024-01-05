@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { Link, useParams } from 'react-router-dom'
 import EditLayout from '../components/FormModal'
@@ -33,10 +33,16 @@ const DetailPage = () => {
   const totalNum = details.items.map((item)=>parseInt(item.total))
   const totalAmount = totalNum.reduce((acc, num) => acc + num, 0);
 
+  const [status, setStatus] = useState(details.status)
+
+  console.log(status);
+
   async function changeStatus () {
     try {
       dispatch(startLoader())
       const invoiceRes = await service.updateStatus({status:"paid"},details.$id)
+      console.log(invoiceRes.status);
+      setStatus(invoiceRes.status)
     } catch (error) {
         // setError(error.message)
     }finally{
@@ -55,8 +61,8 @@ const DetailPage = () => {
     <Link to='/' className='text-[#0C0E16] text-[15px] font-bold mb-5'>Go back</Link>
     <div className='grid grid-cols-7 content-center gap-x-5 bg-white p-5 rounded-lg mt-3'>
       <p className='text-[#858BB2] text-[13px] font-medium my-auto'>Status</p>
-      <button className={`p-3 rounded-lg col-span-3  flex justify-center items-center w-[150px] mx-2  font-bold ${details.status==="paid"?"bg-[#33D69F] text-[#33D69F] bg-opacity-[0.0571]":details.status==="pending"?"bg-[#FF8F00] text-[#FF8F00] bg-opacity-[0.0571]":"bg-[#373B53] text-[#373B53] bg-opacity-[0.0571]"}`}>
-        <div className={`w-2 h-2 rounded-full mx-2 ${details.status==="paid"?"bg-[#33D69F]":details.status==="pending"?"bg-[#FF8F00] ":"bg-[#373B53] "}`} ></div>{details.status.charAt(0).toUpperCase() + details.status.slice(1)}
+      <button className={`p-3 rounded-lg col-span-3  flex justify-center items-center w-[150px] mx-2  font-bold ${status==="paid"?"bg-[#33D69F] text-[#33D69F] bg-opacity-[0.0571]":status==="pending"?"bg-[#FF8F00] text-[#FF8F00] bg-opacity-[0.0571]":"bg-[#373B53] text-[#373B53] bg-opacity-[0.0571]"}`}>
+        <div className={`w-2 h-2 rounded-full mx-2 ${status==="paid"?"bg-[#33D69F]":status==="pending"?"bg-[#FF8F00] ":"bg-[#373B53] "}`} ></div>{status.charAt(0).toUpperCase() + status.slice(1)}
       </button>
       <button className='text-[#7E88C3] text-[15px] font-bold' onClick={handleOpen}>Edit</button>
       <button className='bg-[#EC5757] rounded-3xl p-2 text-[15px] font-bold text-white'  onClick={handleOpenDelete}>Delete</button>

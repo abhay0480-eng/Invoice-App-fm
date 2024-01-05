@@ -7,9 +7,7 @@ const AddInvoice = ({invoiceCount,handleOpen,filter,setFilter}) => {
   const dispatch = useDispatch()
 
   const [showFilter,setShowFilter] = useState(false)
-
- 
-
+  
   useEffect(()=>{
     dispatch(getfilterData(filter))
   },[showFilter])
@@ -31,7 +29,7 @@ const AddInvoice = ({invoiceCount,handleOpen,filter,setFilter}) => {
 
   
   return (
-    <div className='grid grid-cols-7 content-center mt-20'>
+    <div className='grid grid-cols-7 content-center mt-10'>
         <div className='col-span-4'>
             <h1 className='text-[#0C0E16] text-[24px] md:text-[36px] font-bold'>Invoices</h1>
             <p className='text-[#888EB0] text-[13px] font-medium'> {`There are ${invoiceCount?invoiceCount:0} total invoices`}</p>

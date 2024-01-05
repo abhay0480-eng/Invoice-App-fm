@@ -58,14 +58,19 @@ const FormModal = ({open,handleClose,handleOpen,details,invoiceData,id,addNew}) 
     try {
       dispatch(startLoader())
       if(addNew){
+        handleClose();
       const invoiceRes =   await service.addInvoiceInfo({...data,UserID:id,status:"pending",items:Items} )
       console.log("invoiceRes",invoiceRes);
       if(invoiceRes){
+        
         navigate('/')
       }
       }else{
-        const invoiceRes =  await service.updateInvoiceInfo({...data},details.$id)
+        handleClose();
+        console.log("data",data);
+        const invoiceRes =  await service.updateInvoiceInfo({...data,items:Items},details.$id)
         console.log("invoiceResUpdate",invoiceRes);
+      
       }
       
     } catch (error) {
@@ -227,7 +232,7 @@ const FormModal = ({open,handleClose,handleOpen,details,invoiceData,id,addNew}) 
             
             <div>
               <label className='text-[13px] font-medium text-[#7E88C3]'>Payment Terms</label>
-              <select {...register("paymentTerms")}  className='border-[1px] border-[#DFE3FA] w-full p-4 rounded-md text-[#0C0E16] font-bold text-[15px]'>
+              <select {...register("paymentTerms")} defaultValue={details?.paymentTerms}  className='border-[1px] border-[#DFE3FA] w-full p-4 rounded-md text-[#0C0E16] font-bold text-[15px]'>
                 <option value={1}>{`Net 1 Days`}</option>
                 <option value={7}>{`Net 7 Days`}</option>
                 <option value={14}>{`Net 14 Days`}</option>
@@ -262,12 +267,18 @@ const FormModal = ({open,handleClose,handleOpen,details,invoiceData,id,addNew}) 
 
 
           <div className='flex justify-end gap-x-3  items-center text-center text-[15px] font-bold mt-4 w-[619px] left-[105px] py-4 bg-white fixed bottom-0'>
-            <div className='text-[#7E88C3] bg-[#F9FAFE] rounded-3xl p-3 w-[150px] cursor-pointer '>Cancel</div>
+            <div onClick={()=>handleClose()} className='text-[#7E88C3] bg-[#F9FAFE] rounded-3xl p-3 w-[150px] cursor-pointer '>Cancel</div>
             <button className='text-[#fff] bg-[#7C5DFA] rounded-3xl p-3 w-[150px] mr-4'>Save Changes</button>
           </div>
           </form>
 
-          {Items.map((item, index) => (
+          {/* {addNew ? Items.map((item, index) => (
+          <ItemsForm key={index} itemIndex={index} Items={Items} setItems={setItems} onItemChange={handleItemChange} onRemoveItem={handleRemoveItem} details={details?.items[index]} />
+        )): details.items.map((item, index) => (
+          <ItemsForm key={index} itemIndex={index} Items={Items} setItems={setItems} onItemChange={handleItemChange} onRemoveItem={handleRemoveItem} details={details?.items[index]} />
+        )) } */}
+
+        {Items.map((item, index) => (
           <ItemsForm key={index} itemIndex={index} Items={Items} setItems={setItems} onItemChange={handleItemChange} onRemoveItem={handleRemoveItem} details={details?.items[index]} />
         ))}
 

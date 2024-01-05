@@ -26,9 +26,12 @@ const Header = () => {
             <div className='md:h-[103px] h-[72px] flex justify-center items-center  '>
                 <img src={`/assets/icon-sun.svg`} alt='' className='' />
             </div>
-          {(authStatus) &&  <div className='md:h-[103px] h-[72px] flex justify-center items-center mx-3 md:mx-auto '>
+            <div className='md:h-[103px] h-[72px] '>
+          {(authStatus) &&  <div className=' flex justify-center items-center mx-3 md:mx-auto '>
                 <img src='/assets/image-avatar.jpg' alt='' className='rounded-full w-[40px] h-[40px]'/>
             </div>}
+                {/* <p className=' text-white text-center text-[14px] font-bold block'>{userData?.email.substring(0, userData?.email.indexOf('@'))}</p> */}
+            </div>
            {(authStatus) && <div className=' px-2 md:px-auto p-1 rounded-lg text-white cursor-pointer text-[14px] font-bold text-center my-1 '  onClick={() => logoutHandler()}>Logout</div>}
         </div>
     </div>

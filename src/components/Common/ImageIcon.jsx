@@ -5,7 +5,7 @@ import classnames from "classnames"
 const ImageIcon = ({ img,className, ...rest  }) => {
   const allClassNames = classnames(className )
   return (
-    <img src={`/images/${img}.svg`}  alt="" className={`${allClassNames}`} {...rest}/>
+    <img src={`/assets/${img}.svg`}  alt="" className={`${allClassNames}`} {...rest}/>
   )
 }
 

@@ -118,6 +118,8 @@ const Dashboard = () => {
   const id = userData?.toString();
   const invoiceData = useSelector((state) => state.invoice.invoiceData);
   const items = JSON.parse(localStorage.getItem('getInvoice'));
+  const userEmail = useSelector(state => state.auth.userData?.email)
+
 
   const [filter, setFilter] = useState({
     isPending: false,
@@ -160,6 +162,7 @@ const Dashboard = () => {
       <Backdrop sx={{ color: '#fff', zIndex: (theme) => theme.zIndex.drawer + 1 }} open={isLoading}>
         <CircularProgress color="inherit" />
       </Backdrop>
+      <h1 className=' text-[#0C0E16] text-[24px] md:text-[36px] font-bold'>Welcome <span className='text-[#7C5DFA]'>{userEmail?.substring(0, userEmail?.indexOf('@'))}</span></h1>
 
       <AddInvoice invoiceCount={invoiceData.length} handleOpen={handleOpen} filter={filter} setFilter={setFilter} />
       <FormModal handleOpen={handleOpen} handleClose={handleClose} open={open} invoiceData={invoiceData} id={id} addNew={true} />
