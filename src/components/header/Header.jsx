@@ -26,7 +26,7 @@ const Header = () => {
             <div className='md:h-[103px] h-[72px] flex justify-center items-center  '>
                 <img src={`/assets/icon-sun.svg`} alt='' className='' />
             </div>
-            <div className='md:h-[103px] h-[72px] '>
+            <div className='md:h-[103px] h-[72px] flex'>
           {(authStatus) &&  <div className=' flex justify-center items-center mx-3 md:mx-auto '>
                 <img src='/assets/image-avatar.jpg' alt='' className='rounded-full w-[40px] h-[40px]'/>
             </div>}

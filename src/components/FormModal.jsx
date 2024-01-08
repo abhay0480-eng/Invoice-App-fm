@@ -6,6 +6,7 @@ import { startLoader, stopLoader } from '../store/loader';
 import service from '../appwrite/config';
 import ItemsForm from './itemsForm';
 import { useNavigate } from 'react-router-dom';
+import { Paper } from '@mui/material';
 
 const FormModal = ({open,handleClose,handleOpen,details,invoiceData,id,addNew}) => {
   const dispatch = useDispatch()
@@ -91,7 +92,7 @@ const FormModal = ({open,handleClose,handleOpen,details,invoiceData,id,addNew}) 
         aria-describedby="modal-modal-description"
         className=''
       >
-       <div className='bg-white w-[619px] h-[93vh]  fixed left-[105px] p-10 overflow-y-auto  '>
+       <div className='bg-white w-full md:w-[619px] h-[100vh] md:h-[93vh]  fixed  md:left-[105px] p-6 md:p-10 overflow-y-auto  '>
         <div className=''>
 
          {!addNew?<p className='text-[#0C0E16] text-[24px] font-bold'>Edit <span className='text-[#888EB0]'>#</span>{details?.$id}</p>:<p className='text-[#0C0E16] text-[24px] font-bold'>New Invoice</p>}
@@ -99,7 +100,7 @@ const FormModal = ({open,handleClose,handleOpen,details,invoiceData,id,addNew}) 
         
           <p className='text-[#7C5DFA] font-bold text-[15px] my-6'>Bill From</p>
 
-  {/* form starts */}
+        {/* form starts */}
           <form onSubmit={handleSubmit(onSubmit)} className=''>
 
             {/* sender address starts */}
@@ -265,8 +266,7 @@ const FormModal = ({open,handleClose,handleOpen,details,invoiceData,id,addNew}) 
             <p className='col-span-2'>Total</p>
           </div>
 
-
-          <div className='flex justify-end gap-x-3  items-center text-center text-[15px] font-bold mt-4 w-[619px] left-[105px] py-4 bg-white fixed bottom-0'>
+          <div className='  flex md:justify-end gap-x-3   items-center text-center text-[15px] font-bold md:mt-4 w-full md:w-[619px] md:left-[105px] py-4 bg-white fixed bottom-0'>
             <div onClick={()=>handleClose()} className='text-[#7E88C3] bg-[#F9FAFE] rounded-3xl p-3 w-[150px] cursor-pointer '>Cancel</div>
             <button className='text-[#fff] bg-[#7C5DFA] rounded-3xl p-3 w-[150px] mr-4'>Save Changes</button>
           </div>
