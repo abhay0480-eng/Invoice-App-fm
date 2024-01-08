@@ -168,9 +168,9 @@ const Dashboard = () => {
       <FormModal handleOpen={handleOpen} handleClose={handleClose} open={open} invoiceData={invoiceData} id={id} addNew={true} />
 
       {renderInvoices.length > 0 ? (
-        <div>
+        <div >
           {renderInvoices.map((item) => (
-            <div key={item.$id}>
+            <div  key={item.$id}>
               <InvoiceComponent id={item.$id} createdAt={item.$createdAt} clientName={item.clientName} status={item.status} total={item.items} />
             </div>
           ))}

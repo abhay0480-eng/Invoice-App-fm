@@ -7,6 +7,8 @@ const InvoiceComponent = ({id,createdAt,status,clientName,total}) => {
 const totalNum = total.map((item)=>parseInt(item.total))
 const totalAmount = totalNum.reduce((acc, num) => acc + num, 0);
   return (
+    <div >
+
     <Link to={`/detail/${id}`} className='h-[72px] rounded-xl shadow-xl md:grid md:grid-cols-5 md:gap-x-10 md:content-center md:my-10 md:px-5 md:text-center'>
        
             <p className='text-[#0C0E16] text-[15px] font-bold  m-auto'><span className='text-[#7E88C3] '>#</span>{id}</p>
@@ -32,6 +34,7 @@ const totalAmount = totalNum.reduce((acc, num) => acc + num, 0);
         
         </div>
     </Link>
+    </div>
   )
 }
 
