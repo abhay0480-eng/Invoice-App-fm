@@ -92,6 +92,8 @@ const FormModal = ({open,handleClose,handleOpen,details,invoiceData,id,addNew}) 
         aria-describedby="modal-modal-description"
         className=''
       >
+        <div>
+
        <div className='bg-white w-full md:w-[619px] h-[100vh] md:h-[93vh]  fixed  md:left-[105px] p-6 md:p-10 overflow-y-auto  '>
         <div className=''>
 
@@ -266,11 +268,11 @@ const FormModal = ({open,handleClose,handleOpen,details,invoiceData,id,addNew}) 
             <p className='col-span-2'>Total</p>
           </div>
 
-          <div className='  flex md:justify-end gap-x-3   items-center text-center text-[15px] font-bold md:mt-4 w-full md:w-[619px] md:left-[105px] py-4 bg-white fixed bottom-0'>
-            <div onClick={()=>handleClose()} className='text-[#7E88C3] bg-[#F9FAFE] rounded-3xl p-3 w-[150px] cursor-pointer '>Cancel</div>
-            <button className='text-[#fff] bg-[#7C5DFA] rounded-3xl p-3 w-[150px] mr-4'>Save Changes</button>
-          </div>
+          {/* <div className='  flex md:justify-end gap-x-3   items-center text-center text-[15px] font-bold md:mt-4 w-full md:w-[619px] md:left-[105px] py-4 bg-white fixed bottom-0'> */}
+         
+          {/* </div> */}
           </form>
+         
 
           {/* {addNew ? Items.map((item, index) => (
           <ItemsForm key={index} itemIndex={index} Items={Items} setItems={setItems} onItemChange={handleItemChange} onRemoveItem={handleRemoveItem} details={details?.items[index]} />
@@ -286,7 +288,16 @@ const FormModal = ({open,handleClose,handleOpen,details,invoiceData,id,addNew}) 
         + Add New Item
       </button>
         </div>
+       
        </div>
+       <Paper elevation={5}  className='flex  gap-x-3  justify-evenly  items-center text-center text-[15px] font-bold md:mt-4 !w-full  md:!w-[619px] md:left-[105px] py-4 bg-white fixed bottom-0'>
+            <div onClick={()=>handleClose()} className='text-[#7E88C3] bg-[#F9FAFE] rounded-3xl p-3 w-[150px] cursor-pointer '>Cancel</div>
+            <button className='text-[#fff] bg-[#7C5DFA] rounded-3xl p-3 w-[150px] mr-4'>Save Changes</button>
+            </Paper>
+
+        </div>
+      
+      
       </Modal>
     </div>
   )

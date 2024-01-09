@@ -11,6 +11,7 @@ const ConfirmDelete = ({openDelete,handleCloseDelete,detailsid}) => {
   const dispatch = useDispatch()
   async function deleteInvoice(){
     try {
+      handleCloseDelete()
       dispatch(startLoader())
       const deleteRes =  await service.deleteInvoice({documentId:detailsid})
       console.log("delete",deleteRes);
