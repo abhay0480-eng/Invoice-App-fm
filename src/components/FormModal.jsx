@@ -268,9 +268,10 @@ const FormModal = ({open,handleClose,handleOpen,details,invoiceData,id,addNew}) 
             <p className='col-span-2'>Total</p>
           </div>
 
-          {/* <div className='  flex md:justify-end gap-x-3   items-center text-center text-[15px] font-bold md:mt-4 w-full md:w-[619px] md:left-[105px] py-4 bg-white fixed bottom-0'> */}
-         
-          {/* </div> */}
+          <Paper elevation={5}  className='flex left-0  gap-x-3  justify-evenly  items-center text-center text-[15px] font-bold md:mt-4 !w-full  md:!w-[619px] md:left-[105px] py-4 bg-white fixed bottom-0'>
+            <div onClick={()=>handleClose()} className='text-[#7E88C3] bg-[#F9FAFE] rounded-3xl p-3 w-[150px] cursor-pointer '>Cancel</div>
+            <button className='text-[#fff] bg-[#7C5DFA] rounded-3xl p-3 w-[150px] mr-4'>Save Changes</button>
+            </Paper>
           </form>
          
 
@@ -290,14 +291,8 @@ const FormModal = ({open,handleClose,handleOpen,details,invoiceData,id,addNew}) 
         </div>
        
        </div>
-       <Paper elevation={5}  className='flex  gap-x-3  justify-evenly  items-center text-center text-[15px] font-bold md:mt-4 !w-full  md:!w-[619px] md:left-[105px] py-4 bg-white fixed bottom-0'>
-            <div onClick={()=>handleClose()} className='text-[#7E88C3] bg-[#F9FAFE] rounded-3xl p-3 w-[150px] cursor-pointer '>Cancel</div>
-            <button className='text-[#fff] bg-[#7C5DFA] rounded-3xl p-3 w-[150px] mr-4'>Save Changes</button>
-            </Paper>
-
+       
         </div>
-      
-      
       </Modal>
     </div>
   )
