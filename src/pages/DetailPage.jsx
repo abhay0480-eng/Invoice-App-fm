@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useContext, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { Link, useParams } from 'react-router-dom'
 import EditLayout from '../components/FormModal'
@@ -7,6 +7,7 @@ import FormModal from '../components/FormModal'
 import { startLoader, stopLoader } from '../store/loader'
 import service from '../appwrite/config'
 import { Backdrop, CircularProgress, Paper } from '@mui/material'
+import ThemeContext from '../context/ThemeContext'
 
 const DetailPage = () => {
 
@@ -42,6 +43,9 @@ const DetailPage = () => {
     }
   }
 
+  const {theme} = useContext(ThemeContext)
+
+
   return (
     <>
      <Backdrop sx={{ color: '#fff', zIndex: (theme) => theme.zIndex.drawer + 1 }} open={isLoading}>
@@ -49,28 +53,30 @@ const DetailPage = () => {
       </Backdrop>
     <ConfirmDelete   handleCloseDelete={handleCloseDelete} openDelete={openDelete} detailsid = {details.$id} />
     <FormModal handleOpen={handleOpen} handleClose={handleClose} open={open} details={details} addNew={false}/>
-    <div className='max-w-5xl mx-auto p-5 md:mt-20'>
-    <Link to='/' className='text-[#0C0E16] text-[15px] font-bold mb-5'>Go back</Link>
-    <div className='grid grid-cols-2  md:grid-cols-7 content-center gap-x-5 bg-white p-5 rounded-lg mt-3'>
+    <div className='max-w-5xl mx-auto p-5 lg:mt-10'>
+    <Link to='/' className={`${theme?"text-[#fff]":"text-[#0C0E16]"}  text-[15px] font-bold mb-5`}>Go back</Link>
+    <div className={`grid grid-cols-2  lg:grid-cols-7 content-center gap-x-5 ${!theme?"bg-white":"bg-[#1E2139]"} p-5 rounded-lg mt-3`}>
       <p className='text-[#858BB2] text-[13px] font-medium my-auto'>Status</p>
-      <div className='md:col-span-3'>
+      <div className='lg:col-span-3'>
       <button className={`p-3 rounded-lg col-span-3  flex justify-center items-center w-[150px] mx-2  font-bold ${status==="paid"?"bg-[#33D69F] text-[#33D69F] bg-opacity-[0.0571]":status==="pending"?"bg-[#FF8F00] text-[#FF8F00] bg-opacity-[0.0571]":"bg-[#373B53] text-[#373B53] bg-opacity-[0.0571]"}`}>
         <div className={`w-2 h-2 rounded-full mx-2 ${status==="paid"?"bg-[#33D69F]":status==="pending"?"bg-[#FF8F00] ":"bg-[#373B53] "}`} ></div>{status.charAt(0).toUpperCase() + status.slice(1)}
       </button>
       </div>
-      <button className='text-[#7E88C3] text-[15px] font-bold hidden md:block' onClick={handleOpen}>Edit</button>
-      <button className='bg-[#EC5757] rounded-3xl p-2 text-[15px] font-bold text-white hidden md:block'  onClick={handleOpenDelete}>Delete</button>
-      <button onClick={()=>changeStatus()} className='bg-[#7C5DFA] rounded-3xl p-3 text-[15px] font-bold text-white hidden md:block'>Mark as Paid</button>
+      <button className={`${!theme?"text-[#7E88C3]":"text-[#DFE3FA]"} text-[15px] font-bold hidden lg:block`} onClick={handleOpen}>Edit</button>
+      <button className='bg-[#EC5757] rounded-3xl p-2 text-[15px] font-bold text-white hidden lg:block'  onClick={handleOpenDelete}>Delete</button>
+      <button onClick={()=>changeStatus()} className='bg-[#7C5DFA] rounded-3xl p-3 text-[15px] font-bold text-white hidden lg:block'>Mark as Paid</button>
     </div>
 
-    <div className='bg-white p-5 md:p-10 mt-10 h-[100vh] md:h-auto'>
-      <div className='md:flex justify-between '>
+    <div className={`${!theme?"bg-white":"bg-[#1E2139]"} p-5 lg:p-10 mt-10 h-[100vh] lg:h-auto`}>
+      <div className='lg:flex justify-between '>
         <div>
-        <p className='text-[#0C0E16] text-[15px] font-bold  m-auto'><span className='text-[#7E88C3] '>#</span>{details.$id}</p>
+        {/* <p className='text-[#0C0E16] text-[15px] font-bold  m-auto'><span className='text-[#7E88C3] '>#</span>{details.$id}</p> */}
+        <p className={`${theme?"text-[#fff]":"text-[#0C0E16]"} text-[15px] font-bold  lg:m-auto`}><span className='text-[#7E88C3] '>#</span>{details.$id}</p>
+
         <p className='text-[13px] font-medium text-[#7E88C3] my-1'>{details.description}</p>
         </div>
 
-        <div className=' my-3 md:my-auto md:text-right text-[#7E88C3] text-[13px] font-medium'>
+        <div className=' my-3 lg:my-auto lg:text-right text-[#7E88C3] text-[13px] font-medium'>
           <p>{details.senderAddressStreet}</p>
           <p>{details.senderAddressCity}</p>
           <p>{details.senderAddressPostCode}</p>
@@ -78,7 +84,7 @@ const DetailPage = () => {
         </div>
       </div>
 
-      <div className='grid md:grid-cols-4 grid-cols-2 mt-3'>
+      <div className='grid lg:grid-cols-4 grid-cols-2 mt-3'>
       <div>
         <p className='text-[13px] font-medium text-[#7E88C3] my-1'>Invoice Date</p>
         <p className='text-[#0C0E16] text-[15px] font-bold  m-auto'>{dateOnly}</p>
@@ -87,18 +93,18 @@ const DetailPage = () => {
         <p className='text-[13px] font-medium text-[#7E88C3] my-1'>Bill To</p>
         <p className='text-[#0C0E16] text-[15px] font-bold  m-auto'>{details.clientName}</p>
         </div>
-        <div className='hidden md:block'>
+        <div className='hidden lg:block'>
         <p className='text-[13px] font-medium text-[#7E88C3] my-1'>Sent to</p>
         <p className='text-[#0C0E16] text-[15px] font-bold  m-auto'>{details.clientEmail}</p>
         </div>
       </div>
 
-      <div className='grid  md:grid-cols-4 grid-cols-2 mt-3'>
+      <div className='grid  lg:grid-cols-4 grid-cols-2 mt-3'>
         <div>
           <p className='text-[13px] font-medium text-[#7E88C3] my-1'>Payment Due</p>
           <p className='text-[#0C0E16] text-[15px] font-bold  m-auto'>{details.paymentDue}</p>
         </div>
-        <div className='text-left md:col-span-3 text-[#7E88C3] text-[13px] font-medium'>
+        <div className='text-left lg:col-span-3 text-[#7E88C3] text-[13px] font-medium'>
           <p>{details.clientAddressStreet}</p>
           <p>{details.clientAddressCity}</p>
           {/* <p>{details.clientAddress.postCode}</p> */}
@@ -106,13 +112,13 @@ const DetailPage = () => {
         </div>
       </div>
 
-      <div className='block md:hidden'>
+      <div className='block lg:hidden'>
         <p className='text-[13px] font-medium text-[#7E88C3] my-1'>Sent to</p>
         <p className='text-[#0C0E16] text-[15px] font-bold  m-auto'>{details.clientEmail}</p>
         </div>
 
-      <div className='bg-[#F9FAFE] w-full mt-2'>
-        <div className='md:grid md:grid-cols-5 hidden text-[#7E88C3] text-[13px] font-medium  pt-5 md:pt-10 px-10 mt-5 rounded-lg'>
+      <div className='bg-[#F9FAFE] w-full mt-2 rounded-b-2xl'>
+        <div className='lg:grid lg:grid-cols-5 hidden text-[#7E88C3] text-[13px] font-medium  pt-5 lg:pt-10 px-10 mt-5 rounded-lg'>
           <p className='col-span-2'>Item Name</p>
           <p className='text-right'>QTY.</p>
           <p className='text-right'>Price</p>
@@ -123,13 +129,13 @@ const DetailPage = () => {
         {details.items.map((item,index)=>{
           return(
           <div key={index}>
-          <div  className='md:grid md:grid-cols-5 text-[#7E88C3] hidden  text-[13px] font-medium px-5 md:px-10 py-2 rounded-lg'>
+          <div  className='lg:grid lg:grid-cols-5 text-[#7E88C3] hidden  text-[13px] font-medium px-5 lg:px-10 py-2 rounded-lg'>
             <p className='col-span-2 text-[#0C0E16] text-[15px] font-bold'>{item.name}</p>
             <p className=' text-[#7E88C3] text-[15px] font-bold text-right '>{item.quantity}</p>
             <p className=' text-[#7E88C3] text-[15px] font-bold text-right '>£{item.price}</p>
             <p className=' text-[#0C0E16] text-[15px] font-bold text-right'>£{item.total}</p>
           </div>
-          <div className='flex justify-between items-center md:hidden px-5'>
+          <div className='flex justify-between items-center lg:hidden px-5'>
             <div>
             <p className='col-span-2 text-[#0C0E16] text-[15px] font-bold'>{item.name}</p>
             <p className=' text-[#7E88C3] text-[15px] font-bold text-left '>{item.quantity} x {item.price}</p>
@@ -143,7 +149,7 @@ const DetailPage = () => {
         })}
         </div>
 
-        <div className='py-5 flex justify-between items-center px-5 md:px-10 bg-[#373B53] rounded-b-xl'>
+        <div className='py-5 flex justify-between items-center px-5 lg:px-10 bg-[#373B53] rounded-b-xl'>
           <p className='text-[#fff] font-medium text-[13px]'>Amount Due</p>
           <p className='text-[#fff] font-bold text-[24px]'>£{totalAmount}</p>
         </div>
@@ -153,8 +159,8 @@ const DetailPage = () => {
        
     </div>
    
-    {/* <div className='  flex gap-x-3 md:hidden justify-evenly  items-center text-center text-[15px] font-bold md:mt-4 w-full md:w-[619px] md:left-[105px] py-4 bg-white fixed bottom-0'> */}
-    <Paper elevation={5}  className='flex gap-x-3 md:hidden justify-evenly  items-center text-center text-[15px] font-bold md:mt-4 w-full md:w-[619px] md:left-[105px] py-4 bg-white fixed bottom-0'>
+    {/* <div className='  flex gap-x-3 lg:hidden justify-evenly  items-center text-center text-[15px] font-bold lg:mt-4 w-full lg:w-[619px] lg:left-[105px] py-4 bg-white fixed bottom-0'> */}
+    <Paper elevation={5}  className='flex gap-x-3 lg:hidden justify-evenly  items-center text-center text-[15px] font-bold lg:mt-4 w-full lg:w-[619px] lg:left-[105px] py-4 bg-white fixed bottom-0'>
           <button className='text-[#7E88C3] text-[15px] font-bold ' onClick={handleOpen}>Edit</button>
           <button className='bg-[#EC5757] rounded-3xl p-2 text-[15px] font-bold text-white w-[90px]  mx-3'  onClick={handleOpenDelete}>Delete</button>
           <button onClick={()=>changeStatus()} className='bg-[#7C5DFA] rounded-3xl p-3 text-[15px] font-bold w-[150px] text-white '>Mark as Paid</button>

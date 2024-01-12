@@ -101,7 +101,7 @@
 // export default Dashboard
 
 
-import React, { useEffect, useState } from 'react';
+import React, { useContext, useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { Backdrop, CircularProgress } from '@mui/material';
 import service from '../appwrite/config';
@@ -110,6 +110,7 @@ import { getInvoiceData } from '../store/invoiceDataSlice';
 import AddInvoice from '../components/AddInvoice';
 import InvoiceComponent from '../components/InvoiceComponent';
 import FormModal from '../components/FormModal';
+import ThemeContext from '../context/ThemeContext';
 
 const Dashboard = () => {
   const dispatch = useDispatch();
@@ -157,12 +158,15 @@ const Dashboard = () => {
 
   const renderInvoices = filterData.length > 0 ? filterData : invoiceData;
 
+  const {theme} = useContext(ThemeContext)
+
+
   return (
-    <div className="max-w-4xl mx-auto p-6 md:p-auto">
+    <div className={`max-w-4xl mx-auto p-6 lg:p-auto `}>
       <Backdrop sx={{ color: '#fff', zIndex: (theme) => theme.zIndex.drawer + 1 }} open={isLoading}>
         <CircularProgress color="inherit" />
       </Backdrop>
-      <h1 className=' text-[#0C0E16] text-[24px] md:text-[36px] font-bold'>Welcome <span className='text-[#7C5DFA]'>{userEmail?.substring(0, userEmail?.indexOf('@'))}</span></h1>
+      <h1 className={`${theme?"text-[#fff]":"text-[#0C0E16]"}  text-[24px] lg:text-[36px] font-bold`}>Welcome <span className='text-[#7C5DFA]'>{userEmail?.substring(0, userEmail?.indexOf('@'))}</span></h1>
 
       <AddInvoice invoiceCount={invoiceData.length} handleOpen={handleOpen} filter={filter} setFilter={setFilter} />
       <FormModal handleOpen={handleOpen} handleClose={handleClose} open={open} invoiceData={invoiceData} id={id} addNew={true} />

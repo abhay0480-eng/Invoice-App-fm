@@ -94,7 +94,7 @@ const FormModal = ({open,handleClose,handleOpen,details,invoiceData,id,addNew}) 
       >
         <div>
 
-       <div className='bg-white w-full md:w-[619px] h-[100vh] md:h-[93vh]  fixed  md:left-[105px] p-6 md:p-10 overflow-y-auto  '>
+       <div className='bg-white w-full lg:w-[619px] h-[100vh] lg:h-[93vh]  fixed  lg:left-[105px] p-6 lg:p-10 overflow-y-auto  '>
         <div className=''>
 
          {!addNew?<p className='text-[#0C0E16] text-[24px] font-bold'>Edit <span className='text-[#888EB0]'>#</span>{details?.$id}</p>:<p className='text-[#0C0E16] text-[24px] font-bold'>New Invoice</p>}
@@ -268,7 +268,7 @@ const FormModal = ({open,handleClose,handleOpen,details,invoiceData,id,addNew}) 
             <p className='col-span-2'>Total</p>
           </div>
 
-          <Paper elevation={5}  className='flex left-0  gap-x-3  justify-evenly  items-center text-center text-[15px] font-bold md:mt-4 !w-full  md:!w-[619px] md:left-[105px] py-4 bg-white fixed bottom-0'>
+          <Paper elevation={5}  className='flex left-0  gap-x-3  justify-evenly  items-center text-center text-[15px] font-bold lg:mt-4 !w-full  lg:!w-[619px] lg:left-[105px] py-4 bg-white fixed bottom-0'>
             <div onClick={()=>handleClose()} className='text-[#7E88C3] bg-[#F9FAFE] rounded-3xl p-3 w-[150px] cursor-pointer '>Cancel</div>
             <button className='text-[#fff] bg-[#7C5DFA] rounded-3xl p-3 w-[150px] mr-4'>Save Changes</button>
             </Paper>

@@ -10,6 +10,7 @@ import Login from './pages/Login.jsx'
 import SignUp from './pages/SignUp.jsx'
 import Dashboard from './pages/Dashboard.jsx'
 import DetailPage from './pages/DetailPage.jsx'
+import ThemeContextProvider from './context/ThemeContextProvider.jsx'
 
 
 const router = createBrowserRouter(createRoutesFromElements(
@@ -23,6 +24,8 @@ const router = createBrowserRouter(createRoutesFromElements(
 
 ReactDOM.createRoot(document.getElementById('root')).render(
   <Provider store={store}>
+  <ThemeContextProvider >
   <RouterProvider router={router}/>
+  </ThemeContextProvider>
   </Provider>
 )
