@@ -53,7 +53,7 @@ const DetailPage = () => {
       </Backdrop>
     <ConfirmDelete   handleCloseDelete={handleCloseDelete} openDelete={openDelete} detailsid = {details.$id} />
     <FormModal handleOpen={handleOpen} handleClose={handleClose} open={open} details={details} addNew={false}/>
-    <div className='max-w-5xl mx-auto p-5 bg-[#141625] lg:mt-10'>
+    <div className={`max-w-5xl lg:mx-auto p-5  ${theme?"bg-[#141625]":""} lg:mt-10`}>
     <Link to='/' className={`${theme?"text-[#fff]":"text-[#0C0E16]"}  text-[15px] font-bold mb-5`}>Go back</Link>
     <div className={`grid grid-cols-2  lg:grid-cols-7 content-center gap-x-5 ${!theme?"bg-white":"bg-[#1E2139]"} p-5 rounded-lg mt-3`}>
       <p className={` ${theme?"text-[#DFE3FA]":"text-[#858BB2]"}  text-[13px] font-medium my-auto`}>Status</p>
@@ -110,9 +110,9 @@ const DetailPage = () => {
         </div>
       </div>
 
-      <div className='block lg:hidden'>
-        <p className='text-[13px] font-medium text-[#7E88C3] my-1'>Sent to</p>
-        <p className='text-[#0C0E16] text-[15px] font-bold  m-auto'>{details.clientEmail}</p>
+      <div className='block lg:hidden my-5 lg:my-0'>
+        <p className={`text-[13px] font-medium  ${theme?"text-[#DFE3FA]":"text-[#7E88C3]"} my-2`}>Sent to</p>
+        <p className={`${theme?"text-[#DFE3FA]":"text-[#0C0E16]"} text-[15px] font-bold  m-auto`}>{details.clientEmail}</p>
         </div>
 
       <div className={`${theme?"bg-[#252945]":"bg-[#F9FAFE]"} w-full mt-10 lg:mt-2 rounded-lg`}>
@@ -130,16 +130,16 @@ const DetailPage = () => {
           <div  className='lg:grid lg:grid-cols-5 text-[#7E88C3] hidden  text-[13px] font-medium px-5 lg:px-10 py-2 rounded-lg'>
             <p className= {`col-span-2 ${theme?"text-[#fff]":"text-[#0C0E16]"}  text-[15px] font-bold`}>{item.name}</p>
             <p className= {` ${theme?"text-[#fff]":"text-[#7E88C3]"}  text-[15px] font-bold text-right`} >{item.quantity}</p>
-            <p className={` ${theme?"text-[#fff]":"text-[#7E88C3]"}  text-[15px] font-bold text-right`}>£{item.price}</p>
-            <p className={` ${theme?"text-[#fff]":"text-[#7E88C3]"}  text-[15px] font-bold text-right`}>£{item.total}</p>
+            <p className={` ${theme?"text-[#fff]":"text-[#7E88C3]"}  text-[15px] font-bold text-right`}>₹{item.price}</p>
+            <p className={` ${theme?"text-[#fff]":"text-[#7E88C3]"}  text-[15px] font-bold text-right`}>₹{item.total}</p>
           </div>
           <div className='flex justify-between items-center lg:hidden px-5'>
             <div>
-            <p className='col-span-2 text-[#0C0E16] text-[15px] font-bold'>{item.name}</p>
+            <p className={`col-span-2 ${theme?"text-[#fff]":"text-[#0C0E16]"}  text-[15px] font-bold`}>{item.name}</p>
             <p className=' text-[#7E88C3] text-[15px] font-bold text-left '>{item.quantity} x {item.price}</p>
             </div>
             <div>
-            <p className=' text-[#0C0E16] text-[15px] font-bold text-right'>£{item.total}</p>
+            <p className={` ${theme?"text-[#fff]":"text-[#7E88C3]"}  text-[15px] font-bold text-right`}>₹{item.total}</p>
             </div>
           </div>
           </div>
@@ -149,7 +149,7 @@ const DetailPage = () => {
 
         <div className={`py-5 flex justify-between items-center px-5 lg:px-10 ${!theme?"bg-[#373B53]" : "bg-[#0C0E16]"} rounded-b-xl`}>
           <p className='text-[#fff] font-medium text-[13px]'>Amount Due</p>
-          <p className='text-[#fff] font-bold text-[24px]'>£{totalAmount}</p>
+          <p className='text-[#fff] font-bold text-[24px]'>₹{totalAmount}</p>
         </div>
       </div>
 
@@ -158,7 +158,7 @@ const DetailPage = () => {
     </div>
    
     {/* <div className='  flex gap-x-3 lg:hidden justify-evenly  items-center text-center text-[15px] font-bold lg:mt-4 w-full lg:w-[619px] lg:left-[105px] py-4 bg-white fixed bottom-0'> */}
-    <Paper elevation={5}  className='flex gap-x-3 lg:hidden justify-evenly  items-center text-center text-[15px] font-bold lg:mt-4 w-full lg:w-[619px] lg:left-[105px] py-4 bg-white fixed bottom-0'>
+    <Paper elevation={5}  className={`flex gap-x-3 lg:hidden justify-evenly  items-center text-center text-[15px] font-bold lg:mt-4 w-full lg:w-[619px] lg:left-[105px] py-4 ${theme?"!bg-[#1E2139]" : "!bg-white"}    fixed bottom-0`}>
           <button className='text-[#7E88C3] text-[15px] font-bold ' onClick={handleOpen}>Edit</button>
           <button className='bg-[#EC5757] rounded-3xl p-2 text-[15px] font-bold text-white w-[90px]  mx-3'  onClick={handleOpenDelete}>Delete</button>
           <button onClick={()=>changeStatus()} className='bg-[#7C5DFA] rounded-3xl p-3 text-[15px] font-bold w-[150px] text-white '>Mark as Paid</button>

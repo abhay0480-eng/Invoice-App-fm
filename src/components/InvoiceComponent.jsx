@@ -21,7 +21,7 @@ const {theme} = useContext(ThemeContext)
             <div className='flex justify-between items-center lg:hidden my-5'>
               <div>
                 <p className='text-[#7E88C3] text-[13px] font-medium m-auto'>{dateOnly}</p>
-                <p className={`${theme?"text-[#fff]":"text-[#0C0E16]"} text-[15px] font-bold m-auto`}>£{totalAmount}</p>
+                <p className={`${theme?"text-[#fff]":"text-[#0C0E16]"} text-[15px] font-bold m-auto`}>₹{totalAmount}</p>
               </div>
               <div className='flex justify-between items-center'>
                 <button className={`p-3 rounded-lg flex justify-center items-center w-full mx-2  font-bold ${status==="paid"?"bg-[#33D69F] text-[#33D69F] bg-opacity-[0.0571]":status==="pending"?"bg-[#FF8F00] text-[#FF8F00] bg-opacity-[0.0571]":"bg-[#373B53] text-[#373B53] bg-opacity-[0.0571]"}`}>

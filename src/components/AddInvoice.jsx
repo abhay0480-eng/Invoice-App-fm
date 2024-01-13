@@ -39,7 +39,7 @@ const AddInvoice = ({invoiceCount,handleOpen,filter,setFilter}) => {
         <div    className='flex cursor-pointer justify-center items-center lg:col-span-1 col-span-2 relative'>
           <div className='flex justify-center items-center' onClick={()=> setShowFilter(pre=>!pre)}>
             <p  className= {`${theme?"text-[#fff]":"text-[#0C0E16]"} text-[15px] hidden lg:block font-bold mx-2`}>Filter by status</p>
-            <p  className='text-[#0C0E16] text-[15px]  lg:hidden font-bold mx-2'>Filter </p>
+            <p  className={`${!theme?"text-[#0C0E16]":"text-[#fff]"} text-[15px]  lg:hidden font-bold mx-2`}>Filter </p>
             <svg xmlns="http://www.w3.org/2000/svg" width="10" height="7" viewBox="0 0 10 7" fill="none">
             <path d="M1 6.22803L5.2279 2.00013L9.4558 6.22803" stroke="#7C5DFA" stroke-width="2"/>
             </svg>
