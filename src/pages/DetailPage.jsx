@@ -54,7 +54,14 @@ const DetailPage = () => {
     <ConfirmDelete   handleCloseDelete={handleCloseDelete} openDelete={openDelete} detailsid = {details.$id} />
     <FormModal handleOpen={handleOpen} handleClose={handleClose} open={open} details={details} addNew={false}/>
     <div className={`max-w-5xl lg:mx-auto p-5  ${theme?"bg-[#141625]":""} lg:mt-10`}>
-    <Link to='/' className={`${theme?"text-[#fff]":"text-[#0C0E16]"}  text-[15px] font-bold mb-5`}>Go back</Link>
+      <div className='flex  items-center my-8'>
+        <Link to='/' className={`${theme?"text-[#fff]":"text-[#0C0E16]"}  my-auto text-[15px] font-bold flex items-center  `}>
+        <svg xmlns="http://www.w3.org/2000/svg" width="6" height="11" viewBox="0 0 6 11" fill="none">
+        <path d="M4.3418 0.886719L0.113895 5.11462L4.3418 9.34252" stroke="#7C5DFA" stroke-width="2"/>
+        </svg>
+        <p className='mx-7'>Go back</p>
+        </Link>
+      </div>
     <div className={`grid grid-cols-2  lg:grid-cols-7 content-center gap-x-5 ${!theme?"bg-white":"bg-[#1E2139]"} p-5 rounded-lg mt-3`}>
       <p className={` ${theme?"text-[#DFE3FA]":"text-[#858BB2]"}  text-[13px] font-medium my-auto`}>Status</p>
       <div className='lg:col-span-3'>
@@ -67,7 +74,7 @@ const DetailPage = () => {
       <button onClick={()=>changeStatus()} className='bg-[#7C5DFA] rounded-3xl p-3 text-[15px] font-bold text-white hidden lg:block'>Mark as Paid</button>
     </div>
 
-    <div className={`${!theme?"bg-white":"bg-[#1E2139]"} p-5 lg:p-10 mt-10 h-[100vh] lg:h-auto`}>
+    <div className={`${!theme?"bg-white":"bg-[#1E2139]"} p-5 lg:p-10 mt-10 h-[100vh] lg:h-auto rounded-lg`}>
       <div className='lg:flex justify-between '>
         <div>
         <p className={`${theme?"text-[#fff]":"text-[#0C0E16]"} text-[15px] font-bold  lg:m-auto`}><span className='text-[#7E88C3] '>#</span>{details.$id}</p>
