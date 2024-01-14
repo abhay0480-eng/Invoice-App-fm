@@ -22,19 +22,16 @@ const DetailPage = () => {
   const {id} = useParams()
   const items = JSON.parse(localStorage.getItem('getInvoice'))
   const invoiceDetails = items?.filter((item)=> item.$id === id)
-  console.log("invoiceDetails",invoiceDetails[0])
   const details = invoiceDetails[0]
   const dateOnly = new Date(details.$createdAt).toISOString().split('T')[0];
   const totalNum = details.items.map((item)=>parseInt(item.total))
   const totalAmount = totalNum.reduce((acc, num) => acc + num, 0)
-  const [status, setStatus] = useState(details.status)
-  console.log(status);
+  const [status, setStatus] = useState(details.status);
 
   async function changeStatus () {
     try {
       dispatch(startLoader())
       const invoiceRes = await service.updateStatus({status:"paid"},details.$id)
-      console.log(invoiceRes.status);
       setStatus(invoiceRes.status)
     } catch (error) {
         // setError(error.message)
