@@ -20,7 +20,6 @@ const Header = () => {
     })
   }
 
-  console.log(theme);
   return (
     <div className='lg:fixed static top-0 left-0 h-[72px] w-full lg:w-[103px] lg:h-screen bg-[#373B53] flex lg:flex-col justify-between  z-50  lg:rounded-r-3xl shadow-lg'>
         <div className='lg:h-[103px] h-full w-[72px] lg:w-auto bg-[#7C5DFA] flex justify-center items-center  rounded-r-3xl'>
@@ -28,8 +27,8 @@ const Header = () => {
         </div>
 
         <div className='flex justify-between items-center lg:block'>
-            <div className='lg:h-[103px] h-[72px] flex justify-center items-center cursor-pointer '>
-                <img src={`/assets/icon-sun.svg`} alt='' className='' onClick={()=>setTheme(pre=>!pre)} />
+            <div className='lg:h-[103px] h-[72px] flex justify-center mx-5 items-center cursor-pointer '>
+                <img src={`${theme?"/assets/icon-sun.svg":"/assets/icon-moon.svg"}`} alt='' className='' onClick={()=>setTheme(pre=>!pre)} />
             </div>
             <div className='lg:h-[103px] h-[72px] flex'>
           {(authStatus) &&  <div className=' flex justify-center items-center mx-3 lg:mx-auto '>
@@ -37,7 +36,7 @@ const Header = () => {
             </div>}
                 {/* <p className=' text-white text-center text-[14px] font-bold block'>{userData?.email.substring(0, userData?.email.indexOf('@'))}</p> */}
             </div>
-           {(authStatus) && <div className=' px-2 lg:px-auto p-1 rounded-lg text-white cursor-pointer text-[14px] font-bold text-center my-1 '  onClick={() => logoutHandler()}>Logout</div>}
+           {(authStatus) && <div className=' px-2 mx-3 lg:px-auto p-1 rounded-lg text-white cursor-pointer text-[14px] font-bold text-center my-1 '  onClick={() => logoutHandler()}>Logout</div>}
         </div>
     </div>
   )
