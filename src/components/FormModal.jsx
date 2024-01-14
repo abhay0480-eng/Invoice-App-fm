@@ -274,15 +274,7 @@ const FormModal = ({open,handleClose,handleOpen,details,invoiceData,id,addNew}) 
             <button className='text-[#fff] bg-[#7C5DFA] rounded-3xl p-3 w-[150px] mr-4'>Save Changes</button>
             </Paper>
           </form>
-         
-
-          {/* {addNew ? Items.map((item, index) => (
-          <ItemsForm key={index} itemIndex={index} Items={Items} setItems={setItems} onItemChange={handleItemChange} onRemoveItem={handleRemoveItem} details={details?.items[index]} />
-        )): details.items.map((item, index) => (
-          <ItemsForm key={index} itemIndex={index} Items={Items} setItems={setItems} onItemChange={handleItemChange} onRemoveItem={handleRemoveItem} details={details?.items[index]} />
-        )) } */}
-
-        {Items.map((item, index) => (
+        {Items?.map((item, index) => (
           <ItemsForm key={index} itemIndex={index} Items={Items} setItems={setItems} onItemChange={handleItemChange} onRemoveItem={handleRemoveItem} details={details?.items[index]} />
         ))}
 
