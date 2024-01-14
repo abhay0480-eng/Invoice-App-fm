@@ -23,12 +23,18 @@ const FormModal = ({open,handleClose,handleOpen,details,invoiceData,id,addNew}) 
   } = useForm()
   const [error,setError] =useState("")
 
+  // console.log("details.name",details?.items[0]?.name);
+
   const [Items, setItems] = useState([
     {
-      name: '',
-      quantity: '',
-      price: '',
-      total: '',
+      // name: details.items[0].name?details.items[0].name:'',
+      // quantity: details.items[0].quantity?details.items[0].quantity:'',
+      // price: details.items[0].price?details.items[0].price:'',
+      // total: details.items[0].total?details.items[0].total:'',
+      name: details?.items[0]?.name,
+      quantity: details?.items[0]?.quantity,
+      price: details?.items[0]?.price,
+      total: details?.items[0]?.total,
     },
   ]);
 
@@ -70,8 +76,10 @@ const FormModal = ({open,handleClose,handleOpen,details,invoiceData,id,addNew}) 
         navigate('/')
       }
       }else{
+
+        console.log("Items",Items);
         handleClose();
-        console.log("data",data);
+       
         const invoiceRes =  await service.updateInvoiceInfo({...data,items:Items},details.$id)
         console.log("invoiceResUpdate",invoiceRes);
       
@@ -275,7 +283,7 @@ const FormModal = ({open,handleClose,handleOpen,details,invoiceData,id,addNew}) 
             </Paper>
           </form>
         {Items?.map((item, index) => (
-          <ItemsForm key={index} itemIndex={index} Items={Items} setItems={setItems} onItemChange={handleItemChange} onRemoveItem={handleRemoveItem} details={details?.items[index]} />
+          <ItemsForm key={index} register={register} itemIndex={index} Items={Items} setItems={setItems} onItemChange={handleItemChange} onRemoveItem={handleRemoveItem} details={details?.items[index]} />
         ))}
 
       <button onClick={handleAddNewItem} className={`border-[1px]  ${theme?"bg-[#1E2139] border-[#252945] text-white":"bg-white border-[#DFE3FA]"} w-full p-3 rounded-3xl text-[#0C0E16] font-bold text-[15px]`}>

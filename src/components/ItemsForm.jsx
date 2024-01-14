@@ -17,7 +17,6 @@ const ItemsForm = ({ setItems, Items, itemIndex, onItemChange,onRemoveItem,detai
             <div className='col-span-1'>
               <input 
               defaultValue={details?.quantity} 
-
               onChange={(e) => onItemChange(itemIndex, 'quantity', e.target.value)}
               className={`border-[1px]  ${theme?"bg-[#1E2139] border-[#252945] text-white":"bg-white border-[#DFE3FA]"} w-full p-3 rounded-md text-[#0C0E16] font-bold text-[15px]`}
             />
@@ -25,18 +24,14 @@ const ItemsForm = ({ setItems, Items, itemIndex, onItemChange,onRemoveItem,detai
             <div className='col-span-2'>
             <input 
               defaultValue={details?.price} 
-
               onChange={(e) => onItemChange(itemIndex, 'price', e.target.value)}
-
               className={`border-[1px]  ${theme?"bg-[#1E2139] border-[#252945] text-white":"bg-white border-[#DFE3FA]"} w-full p-3 rounded-md text-[#0C0E16] font-bold text-[15px]`}
             />
             </div>
             <div className='col-span-3 flex justify-between items-center gap-x-3'>
             <input 
               defaultValue={details?.total} 
- 
               onChange={(e) => onItemChange(itemIndex, 'total', e.target.value)}
-
               className={`border-[1px]  ${theme?"bg-[#1E2139] border-[#252945] text-white":"bg-white border-[#DFE3FA]"} w-full p-3 rounded-md text-[#0C0E16] font-bold text-[15px]`}
             />
             <div className='col-span-1 cursor-pointer'>
