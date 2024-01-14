@@ -4,7 +4,7 @@ import { useForm } from 'react-hook-form';
 import { useDispatch } from 'react-redux';
 import { startLoader, stopLoader } from '../store/loader';
 import service from '../appwrite/config';
-import ItemsForm from './itemsForm';
+import ItemsForm from './ItemsForm';
 import { useNavigate } from 'react-router-dom';
 import { Paper } from '@mui/material';
 import ThemeContext from '../context/ThemeContext';
