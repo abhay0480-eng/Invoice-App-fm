@@ -80,7 +80,7 @@ const Dashboard = () => {
       ) : (
         <div>
           <img src="/assets/illustration-empty.svg" alt="" className="mx-auto mt-20" />
-          <h1 className="text-[#0C0E16] text-[24px] font-bold text-center my-5">There is nothing here</h1>
+          <h1 className={` ${theme?"text-[#fff]":"text-[#0C0E16]"} text-[24px] font-bold text-center my-5`}>There is nothing here</h1>
           <p className="text-[#888EB0] text-[13px] font-medium text-center">
             Create an invoice by clicking the <span className="font-bold">New Invoice </span>button and get started
           </p>
